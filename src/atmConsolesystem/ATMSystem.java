@@ -12,8 +12,8 @@ public class ATMSystem {
 		while(true) {
 			System.out.println(ConsoleColors.BLUE+"\n========== Welcome to ATM System ==========\n"+ConsoleColors.RESET);
 			System.out.println("1. Create Account\n2. Admin Login\n3. Account Login\n4. Exit");
+			System.out.print("Enter your Choice: ");
 			int choice = sc.nextInt(); sc.nextLine();
-			System.out.println("Enter your Choice");
 			switch(choice) {
 			case 1: createAccount(); break;
 			case 2: adminLogin(); break;
@@ -33,22 +33,29 @@ public class ATMSystem {
 		String accountNum = sc.nextLine();
 		System.out.print("Enter PIN: ");
 		String pin  =sc.nextLine();
-		System.out.println("Enter initial Balance: ");
+		System.out.print("Enter initial Balance: ");
 		double balance = sc.nextDouble();
 		sc.nextLine();
-		accounts[accountCount++]=new Account(userName,location,accountNum,pin,balance);
-		System.out.println(ConsoleColors.GREEN+"\n------Account created Successfully------\n"+ConsoleColors.RESET);
+		  if (userName.isEmpty() || location.isEmpty() || accountNum.isEmpty() || pin.isEmpty() || balance < 0) {
+		        System.out.println(ConsoleColors.RED + "Error: Account creation unsuccessful. Please enter valid details." + ConsoleColors.RESET);
+		        return;
+		    }
+			accounts[accountCount++]=new Account(userName,location,accountNum,pin,balance);
+			System.out.println(ConsoleColors.GREEN+"\n------Account created Successfully------\n"+ConsoleColors.RESET);
+			
+		
 	}
 	// ======= admin login ======
 	public void adminLogin() {
 		System.out.print("Enter username: ");
 		String user = sc.nextLine();
-		System.out.println("Enter Password: ");
+		System.out.print("Enter Password: ");
 		String pass =sc.nextLine();
 		if(admin.login(user, pass)) {
 			System.out.println(ConsoleColors.GREEN+"\n-------Admin Login Successfully-------\n"+ConsoleColors.RESET);
 			while(true) {
 				System.out.println("1. View All Accounts\n2. Delete Account\n3. LogOut");
+				System.out.print("Enter your choice: ");
 				int choice = sc.nextInt();sc.nextLine();
 				switch(choice) {
 				case 1: admin.viewAccounts(accounts,accountCount); break;
@@ -75,13 +82,14 @@ public class ATMSystem {
 	public void accountLogin() {
 		System.out.print("Enter Account Number: ");
 		String accNum = sc.nextLine();
-		System.out.println("Enter Your Pin: ");
+		System.out.print("Enter Your Pin: ");
 		String pin = sc.nextLine();
 		Account account = atm.authenticate(accounts, accountCount, accNum, pin);
 		if(account!=null) {
 			System.out.println(ConsoleColors.GREEN+"Login Successfull "+account.getUserName()+ConsoleColors.RESET);
 			while(true) {
 				 System.out.println("1. Withdraw\n2. Deposit\n3. Check Balance\n4. Logout");
+				 System.out.print("Enter your choice: ");
 	             int choice = sc.nextInt(); sc.nextLine();
 	             switch(choice) {
 	             case 1: System.out.print("Enter Amount to Withdraw: ");

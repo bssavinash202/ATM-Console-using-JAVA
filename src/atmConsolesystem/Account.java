@@ -13,12 +13,16 @@ public class Account {
 		this.location = location;
 		this.accountNum = accountNum;
 		this.pin = pin;
-		this.balance = balance;
+		setBalance(balance);
 	}
 
 
 	public void setBalance(double balance) {
-		this.balance = balance;
+		if(balance>0) {
+			this.balance = balance;
+		}else
+			this.balance=0;
+		
 	}
 
 
