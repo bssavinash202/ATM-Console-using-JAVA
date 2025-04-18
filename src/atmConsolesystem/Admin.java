@@ -7,10 +7,9 @@ public class Admin {
 	   public boolean login(String user, String pass) {
 		   return Admin_userName.equals(user) && Admin_password.equals(pass);
 	   }
-	   public void viewAccounts(Account[] accounts, int accountCount) {
+	   public void viewAccounts(Account[] accounts, int accountCount) throws InvalidAmountException{
 		   if(accountCount==0) {
-			   System.out.println(ConsoleColors.RED+"\nNo accounts Available\n"+ConsoleColors.RESET);
-			   return;
+			   throw new InvalidAmountException(ConsoleColors.RED+"\nNo accounts Available\n"+ConsoleColors.RESET);
 		   }
 			   System.out.println(ConsoleColors.BLUE+"\n--------List of Accounts-----\n"+ConsoleColors.RESET);
 			   boolean found=false;
@@ -21,7 +20,7 @@ public class Admin {
 				   }
 			   }
 			   if(!found) {
-				   System.out.println(ConsoleColors.RED+"\nNo accounts Available\n"+ConsoleColors.RESET);
+				   throw new InvalidAmountException(ConsoleColors.RED+"\nNo accounts Available\n"+ConsoleColors.RESET);
 			   }
 		   }
 	   

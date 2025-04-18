@@ -9,20 +9,20 @@ public class ATM {
 		}
 		return null;
 	}
-	public void withDraw(Account account, double amount) {
+	public void withDraw(Account account, double amount) throws InvalidAmountException{
 		if(amount%100==0 &&amount<=account.getBalance()) {
 			account.setBalance(account.getBalance()-amount);
 			System.out.println(ConsoleColors.GREEN+"\nWithdrawal Success\n"+ConsoleColors.RESET);
 		}else {
-			 System.out.println(ConsoleColors.RED+"\nInvalid amount or insufficient balance!\n"+ConsoleColors.RESET);
+			throw new InvalidAmountException(ConsoleColors.RED+"\nInvalid amount or insufficient balance!\n"+ConsoleColors.RESET);
 		}
 	}
-	public void deposit(Account account, double amount) {
+	public void deposit(Account account, double amount) throws InvalidAmountException{
         if (amount % 100 == 0) {
             account.setBalance(account.getBalance() + amount);
             System.out.println(ConsoleColors.GREEN+"\nDeposit successful!\n"+ConsoleColors.RESET);
         } else {
-            System.out.println(ConsoleColors.RED+"\nInvalid deposit amount!\n"+ConsoleColors.RESET);
+            throw new InvalidAmountException(ConsoleColors.RED+"\nInvalid deposit amount!\n"+ConsoleColors.RESET);
         }
     }
 	 public void checkBalance(Account account) {

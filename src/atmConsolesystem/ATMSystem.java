@@ -47,64 +47,73 @@ public class ATMSystem {
 	}
 	// ======= admin login ======
 	public void adminLogin() {
-		System.out.print("Enter username: ");
-		String user = sc.nextLine();
-		System.out.print("Enter Password: ");
-		String pass =sc.nextLine();
-		if(admin.login(user, pass)) {
-			System.out.println(ConsoleColors.GREEN+"\n-------Admin Login Successfully-------\n"+ConsoleColors.RESET);
-			while(true) {
-				System.out.println("1. View All Accounts\n2. Delete Account\n3. LogOut");
-				System.out.print("Enter your choice: ");
-				int choice = sc.nextInt();sc.nextLine();
-				switch(choice) {
-				case 1: admin.viewAccounts(accounts,accountCount); break;
-				case 2: if(accountCount>0) {
-						admin.viewAccounts(accounts, accountCount);
-						System.out.print("Enter Account number to Delete: ");
-						String accNum = sc.nextLine();
-						int count=admin.deleteAccount(accounts,accountCount,accNum);
-						if(count!=accountCount) {
-							accountCount=count;
-						}
-						}else {
-							System.out.println(ConsoleColors.YELLOW+"\nNo Accounts to Delete..!\n"+ConsoleColors.RESET);
-						}break;
-				case 3: System.out.println(ConsoleColors.YELLOW+"\nLogging Out...!\n"+ConsoleColors.RESET);return;
-				default:System.out.println(ConsoleColors.RED+"\nInValid Choice...!\n"+ConsoleColors.RESET);
+		try {
+			System.out.print("Enter username: ");
+			String user = sc.nextLine();
+			System.out.print("Enter Password: ");
+			String pass =sc.nextLine();
+			if(admin.login(user, pass)) {
+				System.out.println(ConsoleColors.GREEN+"\n-------Admin Login Successfully-------\n"+ConsoleColors.RESET);
+				while(true) {
+					System.out.println("1. View All Accounts\n2. Delete Account\n3. LogOut");
+					System.out.print("Enter your choice: ");
+					int choice = sc.nextInt();sc.nextLine();
+					switch(choice) {
+					case 1: admin.viewAccounts(accounts,accountCount); break;
+					case 2: if(accountCount>0) {
+							admin.viewAccounts(accounts, accountCount);
+							System.out.print("Enter Account number to Delete: ");
+							String accNum = sc.nextLine();
+							int count=admin.deleteAccount(accounts,accountCount,accNum);
+							if(count!=accountCount) {
+								accountCount=count;
+							}
+							}else {
+								System.out.println(ConsoleColors.YELLOW+"\nNo Accounts to Delete..!\n"+ConsoleColors.RESET);
+							}break;
+					case 3: System.out.println(ConsoleColors.YELLOW+"\nLogging Out...!\n"+ConsoleColors.RESET);return;
+					default:System.out.println(ConsoleColors.RED+"\nInValid Choice...!\n"+ConsoleColors.RESET);
+					}
 				}
+			}else {
+				System.out.println(ConsoleColors.RED+"\n Invalid Credientials"+ConsoleColors.RESET);
 			}
-		}else {
-			System.out.println(ConsoleColors.RED+"\n Invalid Credientials"+ConsoleColors.RESET);
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	//user login
 	public void accountLogin() {
-		System.out.print("Enter Account Number: ");
-		String accNum = sc.nextLine();
-		System.out.print("Enter Your Pin: ");
-		String pin = sc.nextLine();
-		Account account = atm.authenticate(accounts, accountCount, accNum, pin);
-		if(account!=null) {
-			System.out.println(ConsoleColors.GREEN+"Login Successfull "+account.getUserName()+ConsoleColors.RESET);
-			while(true) {
-				 System.out.println("1. Withdraw\n2. Deposit\n3. Check Balance\n4. Logout");
-				 System.out.print("Enter your choice: ");
-	             int choice = sc.nextInt(); sc.nextLine();
-	             switch(choice) {
-	             case 1: System.out.print("Enter Amount to Withdraw: ");
-			             atm.withDraw(account, sc.nextDouble());
-			             sc.nextLine(); break;
-	             case 2:  System.out.print("Enter Amount to Deposit: ");
-	             			atm.deposit(account, sc.nextDouble());
-	             			sc.nextLine(); break;
-	             case 3: atm.checkBalance(account); break;
-	             case 4: System.out.println("Logging Out..!"); return;
-	             default: System.out.println(ConsoleColors.RED+"Invalid choice..!"+ConsoleColors.RESET);
-	             }
+		
+			System.out.print("Enter Account Number: ");
+			String accNum = sc.nextLine();
+			System.out.print("Enter Your Pin: ");
+			String pin = sc.nextLine();
+			Account account = atm.authenticate(accounts, accountCount, accNum, pin);
+			try {
+			if(account!=null) {
+				System.out.println(ConsoleColors.GREEN+"Login Successfull "+account.getUserName()+ConsoleColors.RESET);
+				while(true) {
+					 System.out.println("1. Withdraw\n2. Deposit\n3. Check Balance\n4. Logout");
+					 System.out.print("Enter your choice: ");
+		             int choice = sc.nextInt(); sc.nextLine();
+		             switch(choice) {
+		             case 1: System.out.print("Enter Amount to Withdraw: ");
+				             atm.withDraw(account, sc.nextDouble());
+				             sc.nextLine(); break;
+		             case 2:  System.out.print("Enter Amount to Deposit: ");
+		             			atm.deposit(account, sc.nextDouble());
+		             			sc.nextLine(); break;
+		             case 3: atm.checkBalance(account); break;
+		             case 4: System.out.println("Logging Out..!"); return;
+		             default: System.out.println(ConsoleColors.RED+"Invalid choice..!"+ConsoleColors.RESET);
+		             }
+				}
+			}else {
+				System.out.println(ConsoleColors.RED+"Invalid account details"+ConsoleColors.RESET);
 			}
-		}else {
-			System.out.println(ConsoleColors.RED+"Invalid account details"+ConsoleColors.RESET);
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	public static void main(String[] args) {
