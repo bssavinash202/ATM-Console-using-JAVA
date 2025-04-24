@@ -79,7 +79,7 @@ public class ATMSystem {
 				System.out.println(ConsoleColors.RED+"\n Invalid Credientials"+ConsoleColors.RESET);
 			}
 		}catch(Exception e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 	}
 	//user login
@@ -89,7 +89,8 @@ public class ATMSystem {
 			String accNum = sc.nextLine();
 			System.out.print("Enter Your Pin: ");
 			String pin = sc.nextLine();
-			Account account = atm.authenticate(accounts, accountCount, accNum, pin);
+			try {
+				Account account = atm.authenticate(accounts, accountCount, accNum, pin);
 			try {
 			if(account!=null) {
 				System.out.println(ConsoleColors.GREEN+"Login Successfull "+account.getUserName()+ConsoleColors.RESET);
@@ -113,8 +114,11 @@ public class ATMSystem {
 				System.out.println(ConsoleColors.RED+"Invalid account details"+ConsoleColors.RESET);
 			}
 		}catch(Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
 	}
 	public static void main(String[] args) {
 		ATMSystem atmsys = new ATMSystem();
